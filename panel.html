@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>- Real Code </> - </title>
+</head>
+<body style="background-color: whitesmoke">
+        Mesajınız: <input type="text" id="mesaj"><br>
+        ID: <input type="text" id="kişi"><br>
+<script>
+const Discord = require('discord.js'), client = new Discord.Client(), ayarlar = require("./ayarlar.json");
+client.on('ready', () => {
+  console.log(`Giriş Yapıldı: ${client.user.tag}`);
+  client.user.setActivity('- Bot Paneli- ');
+});
+
+client.on('message', message => {
+if(message.channel.type == "dm") return alert('Yeni DM!\n' + message.author.tag + ': ' + message.content)
+});
+
+  function gönder() {
+    client.users.get(document.getElementById('kişi').value).send(document.getElementById('mesaj').value).then(alert('Gönderildi: ' + document.getElementById('mesaj').value));
+  }
+client.login(ayarlar.token);
+</script>
+<button onClick="gönder()">Mesaj Gönder</button>
+        <br><br>
+        Durum Mesajı: <input type="text" id="durummesajı"><br>
+        Tür: <select id="tür"><option>PLAYING</option><option>LISTENING</option><option>WATCHING</option></select>
+        <script>
+         function oyna() {
+             client.user.setActivity(document.getElementById('durummesajı').value, {type: document.getElementById('tür').value});
+             }</script>
+             <button onClick="oyna()">Durum Mesajı Değiştir</button>
+             <br><br>Eval: <input type="text" id="evallenecek"> 
+             <script>
+             	function evalle() {
+             		function clean(text) {
+             			if (typeof(text) === "string")
+             				return text.replace(/`/g, "'" + String.fromCharCode(8203)).replace(/@/g, "0" + String.fromCharCode(8203)};
+             					else
+             						return text;
+             					if(document.getElementById("evallencek".value !== || document.getElementById("evallencek").value !== " ") {
+                                try {
+                                   const code = document.getElementById("evallencek").value;
+                                   let evaled = eval(code);
+
+                                   if (typeof) evaled !== "string")
+             						evaled = require("util").inspect(evaled)
+
+
+      client.channels.get(ayarlar.log).send(new Discord.RichEmbed().addField(':inbox_tray: Giriş', '```xl\n' + document.getElementById('evallenecek').value + '```').addField(':outbox_tray: Çıkış', '```xl\n' + clean(evaled) + '```').setFooter('Panel Eval').setColor('00FF00')
+);
+    } catch (err) {
+        client.channels.get(ayarlar.log).send(new Discord.RichEmbed().addField(':inbox_tray: Giriş', '```xl\n' + document.getElementById('evallenecek').value + '```').addField(':outbox_tray: Çıkış', `\`\`\`xl\n${clean(err)}\n\`\`\``).setFooter('Panel Eval').setColor('FF0000'));
+}}};
+             </script>
+             <button onClick="evalle()">Eval!</button><br><br>
+             <select id="kişiler"></select>
+             <script>
+    var select = document.getElementById( 'kişiler' );
+  </script>
+  <button onClick="for (var i = 0; i < client.guilds.get(ayarlar.sunucu_id).members.size; i++) { select.add( new Option(client.guilds.get(ayarlar.sunucu_id).members.map(a => a)[i].user.tag)) };">Yenile</button>
+<br><script>
+function yetki() {
+let sunucu = client.guilds.get(ayarlar.sunucu_id);
+let kişilerr = document.getElementById('kişiler').value;
+if(!sunucu.members.get(sunucu.members.find(s => s.user.tag === kişilerr).id).roles.has(sunucu.roles.find(r => r.name === ayarlar.yetkili_rolü).id)) {
+  sunucu.members.get(sunucu.members.find(s => s.user.tag === kişilerr).id).addRole(sunucu.roles.find(r => r.name === ayarlar.yetkili_rolü)); client.channels.get(ayarlar.log).send('**' + kişilerr + '** | yetkilendirildi!')
+} else {  sunucu.members.get(sunucu.members.find(s => s.user.tag === kişilerr).id).removeRole(sunucu.roles.find(r => r.name === ayarlar.yetkili_rolü)); client.channels.get(ayarlar.log).send('**' + kişilerr + '** | yetki alındı.')}};
+
+function sustur() {
+let sunucu = client.guilds.get(ayarlar.sunucu_id);
+let kişilerr = document.getElementById('kişiler').value;
+if(!sunucu.members.get(sunucu.members.find(s => s.user.tag === kişilerr).id).roles.has(sunucu.roles.find(r => r.name === ayarlar.susturma_rolü).id)) {
+  sunucu.members.get(sunucu.members.find(s => s.user.tag === kişilerr).id).addRole(sunucu.roles.find(r => r.name === ayarlar.susturma_rolü)); client.channels.get(ayarlar.log).send('**' + kişilerr + '** | susturuldu.')
+} else {  sunucu.members.get(sunucu.members.find(s => s.user.tag === kişilerr).id).removeRole(sunucu.roles.find(r => r.name === ayarlar.susturma_rolü)); client.channels.get(ayarlar.log).send('**' + kişilerr + '** | susturma kaldırıldı!')}};
+</script>
+<button onClick="yetki()">Yetki Ver/Al</button><button onClick="sustur()">Sustur/Susturma Aç</button>
+</body>
+</html>
+
+<!-- Made by AdemCan | discord.gg/ET59jzp -->
